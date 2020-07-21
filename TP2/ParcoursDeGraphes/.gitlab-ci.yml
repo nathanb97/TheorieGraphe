@@ -1,0 +1,12 @@
+stages:
+- test
+
+variables:
+  IMAGE_NAME: ${CI_REGISTRY}/m1-isd/algorithmiqueavancee/instructors/image:latest
+
+test:
+  image: ${IMAGE_NAME}
+  stage: test
+  script:
+  - pip install pytest networkx
+  - pytest --doctest-modules .; nbgrader validate 0*.ipynb

@@ -1,0 +1,19 @@
+# CI for assignments
+
+stages:
+- test
+
+image: ${CI_REGISTRY}/m1-isd/algorithmiqueavancee/instructors/image:latest
+
+code:
+  stage: test
+  script: pytest --doctest-modules --junitxml=report.xml .
+#  artifacts:
+#    reports:
+#      junit: report.xml
+
+notebooks:
+  stage: test
+  script:
+  - nbgrader validate 0*.ipynb | tee nbgraderlog
+  - (if grep --silent FAILED nbgraderlog; then exit 1; fi)
